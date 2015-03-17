@@ -37,6 +37,8 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label_mp3opt = new System.Windows.Forms.Label();
+            this.comboBox_mp3opt = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,20 +55,22 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(61, 15);
+            this.label1.Location = new System.Drawing.Point(76, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Type";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(61, 42);
+            this.label2.Location = new System.Drawing.Point(82, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(25, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Key";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // comboBox2
             // 
@@ -89,7 +93,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(55, 163);
+            this.label3.Location = new System.Drawing.Point(41, 163);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 5;
@@ -97,7 +101,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(172, 215);
+            this.button1.Location = new System.Drawing.Point(172, 246);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 6;
@@ -107,7 +111,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(11, 215);
+            this.button2.Location = new System.Drawing.Point(12, 246);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
@@ -148,11 +152,33 @@
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
+            // label_mp3opt
+            // 
+            this.label_mp3opt.AutoSize = true;
+            this.label_mp3opt.Location = new System.Drawing.Point(41, 199);
+            this.label_mp3opt.Name = "label_mp3opt";
+            this.label_mp3opt.Size = new System.Drawing.Size(66, 13);
+            this.label_mp3opt.TabIndex = 10;
+            this.label_mp3opt.Text = "MP3 controls";
+            this.label_mp3opt.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // comboBox_mp3opt
+            // 
+            this.comboBox_mp3opt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_mp3opt.FormattingEnabled = true;
+            this.comboBox_mp3opt.Location = new System.Drawing.Point(126, 196);
+            this.comboBox_mp3opt.Name = "comboBox_mp3opt";
+            this.comboBox_mp3opt.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_mp3opt.TabIndex = 11;
+            this.comboBox_mp3opt.SelectedIndexChanged += new System.EventHandler(this.comboBox_mp3opt_SelectedIndexChanged);
+            // 
             // FormAction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(257, 266);
+            this.ClientSize = new System.Drawing.Size(257, 281);
+            this.Controls.Add(this.comboBox_mp3opt);
+            this.Controls.Add(this.label_mp3opt);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -190,5 +216,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label_mp3opt;
+        private System.Windows.Forms.ComboBox comboBox_mp3opt;
     }
 }

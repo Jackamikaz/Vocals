@@ -18,6 +18,8 @@ namespace Vocals {
 
         public string selectedType { get; set; }
 
+        public string selectedMP3control { get; set; }
+
         public Keys modifier { get; set; }
         
         public FormAction() {
@@ -28,7 +30,8 @@ namespace Vocals {
 
             comboBox2.DataSource = keyDataSource;
           
-            comboBox1.DataSource = new string[]{"Key press","Timer","Stop mp3"};
+            comboBox1.DataSource = new string[]{"Key press","Timer","MP3 controls"};
+            comboBox_mp3opt.DataSource = new string[] { "Pause", "Resume", "Stop" };
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
@@ -41,7 +44,8 @@ namespace Vocals {
 
             comboBox2.DataSource = keyDataSource;
 
-            comboBox1.DataSource = new string[] { "Key press", "Timer", "Stop mp3" };
+            comboBox1.DataSource = new string[] { "Key press", "Timer", "MP3 controls" };
+            comboBox_mp3opt.DataSource = new string[] { "Pause", "Resume", "Stop" };
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
@@ -78,6 +82,7 @@ namespace Vocals {
                     checkBox1.Enabled = true;
                     checkBox2.Enabled = true;
                     checkBox3.Enabled = true;
+                    comboBox_mp3opt.Enabled = false;
                     break;
                 case "Timer":
                     numericUpDown1.Enabled = true;
@@ -85,13 +90,15 @@ namespace Vocals {
                     checkBox1.Enabled = false;
                     checkBox2.Enabled = false;
                     checkBox3.Enabled = false;
+                    comboBox_mp3opt.Enabled = false;
                     break;
-                case "Stop mp3":
+                case "MP3 controls":
                     numericUpDown1.Enabled = false;
                     comboBox2.Enabled = false;
                     checkBox1.Enabled = false;
                     checkBox2.Enabled = false;
                     checkBox3.Enabled = false;
+                    comboBox_mp3opt.Enabled = true;
                     break;
                 default :
                     break;
@@ -148,6 +155,26 @@ namespace Vocals {
             else {
                 modifier = Keys.None;
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox_mp3opt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedMP3control = (string)comboBox_mp3opt.SelectedItem;
         }
 
 

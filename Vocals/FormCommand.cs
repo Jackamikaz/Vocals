@@ -70,9 +70,9 @@ namespace Vocals {
             if (newActionForm.selectedType != "") {
                 if (newActionForm.selectedType == "Key press" && newActionForm.selectedKey != Keys.None
                     || newActionForm.selectedType == "Timer" && newActionForm.selectedTimer != 0
-                    || newActionForm.selectedType == "Stop mp3") {
+                    || newActionForm.selectedType == "MP3 controls") {
 
-                    Actions myNewAction = new Actions(newActionForm.selectedType, newActionForm.selectedKey, newActionForm.modifier, newActionForm.selectedTimer);
+                    Actions myNewAction = new Actions(newActionForm.selectedType, newActionForm.selectedKey, newActionForm.modifier, newActionForm.selectedTimer, newActionForm.selectedMP3control);
                     
 
                     actionList.Add(myNewAction);
@@ -113,6 +113,7 @@ namespace Vocals {
                 a.type = formEditAction.selectedType;
                 a.keyModifier = formEditAction.modifier;
                 a.timer = (float)formEditAction.selectedTimer;
+                a.mp3option = formEditAction.selectedMP3control;
 
                 listBox1.DataSource = null;
                 listBox1.DataSource = actionList;

@@ -15,16 +15,18 @@ namespace Vocals
         public  System.Windows.Forms.Keys keys;
         public float timer;
         public System.Windows.Forms.Keys keyModifier;
+        public string mp3option;
 
         public Actions() {
 
         }
-        public Actions(string type, System.Windows.Forms.Keys keys, System.Windows.Forms.Keys modifier, float timer) {
+        public Actions(string type, System.Windows.Forms.Keys keys, System.Windows.Forms.Keys modifier, float timer, string mp3option) {
             // TODO: Complete member initialization
             this.type = type;
             this.keys = keys;
             this.timer = timer;
             this.keyModifier = modifier;
+            this.mp3option = mp3option;
         }
 
 
@@ -34,8 +36,8 @@ namespace Vocals
                     return "Key press : " + keys.ToString();
                 case "Timer":
                     return "Timer : " + timer.ToString() + " secs";
-                case "Stop mp3":
-                    return "Stop mp3";
+                case "MP3 controls":
+                    return "MP3 control : " + mp3option;
                 default:
                     return "Error : Unknown event";
             }
@@ -50,8 +52,19 @@ namespace Vocals
                 case "Timer":
                     System.Threading.Thread.Sleep((int)(timer*1000));
                     break;
-                case "Stop mp3":
-                    Command.wplayer.controls.stop();
+                case "MP3 controls":
+                    switch (mp3option)
+                    {
+                        case "Pause":
+                            Command.wplayer.controls.pause();
+                            break;
+                        case "Resume":
+                            Command.wplayer.controls.play();
+                            break;
+                        case "Stop":
+                            Command.wplayer.controls.stop();
+                            break;
+                    }
                     break;
             }
         }

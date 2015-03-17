@@ -22,6 +22,8 @@ namespace Vocals {
 
         public string answeringSoundPath { get; set; }
 
+        public static WMPLib.WindowsMediaPlayer wplayer { get; set; }
+
         public Command() {
 
         }
@@ -95,7 +97,11 @@ namespace Vocals {
                     player.Play();
                 }
                 else if (answeringSoundPath.IndexOf(".mp3") == answeringSoundPath.Length - 4) {
-                    WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                    //WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                    if (wplayer == null)
+                    {
+                        wplayer = new WMPLib.WindowsMediaPlayer();
+                    }
 
                     wplayer.URL = answeringSoundPath;
                     wplayer.controls.play();

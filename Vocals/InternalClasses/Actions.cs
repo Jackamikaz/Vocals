@@ -34,6 +34,8 @@ namespace Vocals
                     return "Key press : " + keys.ToString();
                 case "Timer":
                     return "Timer : " + timer.ToString() + " secs";
+                case "Stop mp3":
+                    return "Stop mp3";
                 default:
                     return "Error : Unknown event";
             }
@@ -47,6 +49,9 @@ namespace Vocals
                     break;
                 case "Timer":
                     System.Threading.Thread.Sleep((int)(timer*1000));
+                    break;
+                case "Stop mp3":
+                    Command.wplayer.controls.stop();
                     break;
             }
         }

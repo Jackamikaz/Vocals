@@ -28,7 +28,7 @@ namespace Vocals {
 
             comboBox2.DataSource = keyDataSource;
           
-            comboBox1.DataSource = new string[]{"Key press","Timer"};
+            comboBox1.DataSource = new string[]{"Key press","Timer","Stop mp3"};
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
@@ -41,7 +41,7 @@ namespace Vocals {
 
             comboBox2.DataSource = keyDataSource;
 
-            comboBox1.DataSource = new string[] { "Key press", "Timer" };
+            comboBox1.DataSource = new string[] { "Key press", "Timer", "Stop mp3" };
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
@@ -81,6 +81,13 @@ namespace Vocals {
                     break;
                 case "Timer":
                     numericUpDown1.Enabled = true;
+                    comboBox2.Enabled = false;
+                    checkBox1.Enabled = false;
+                    checkBox2.Enabled = false;
+                    checkBox3.Enabled = false;
+                    break;
+                case "Stop mp3":
+                    numericUpDown1.Enabled = false;
                     comboBox2.Enabled = false;
                     checkBox1.Enabled = false;
                     checkBox2.Enabled = false;

@@ -69,7 +69,8 @@ namespace Vocals {
 
             if (newActionForm.selectedType != "") {
                 if (newActionForm.selectedType == "Key press" && newActionForm.selectedKey != Keys.None
-                    || newActionForm.selectedType == "Timer" && newActionForm.selectedTimer != 0) {
+                    || newActionForm.selectedType == "Timer" && newActionForm.selectedTimer != 0
+                    || newActionForm.selectedType == "Stop mp3") {
 
                     Actions myNewAction = new Actions(newActionForm.selectedType, newActionForm.selectedKey, newActionForm.modifier, newActionForm.selectedTimer);
                     

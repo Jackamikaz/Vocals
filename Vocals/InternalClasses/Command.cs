@@ -24,6 +24,9 @@ namespace Vocals {
 
         public static WMPLib.WindowsMediaPlayer wplayer { get; set; }
 
+        public static Command lastCommand { get; set; }
+        public static Command nextCommand { get; set; }
+
         public Command() {
 
         }
@@ -72,9 +75,25 @@ namespace Vocals {
         [DllImport("User32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
+
         public void perform(IntPtr winPointer) {
+
             SetForegroundWindow(winPointer);
             ShowWindow(winPointer, 5);
+
+            nextCommand = this;
+            while (nextCommand != null)
+            {
+                Command perf = nextCommand;
+                nextCommand = null;
+                perf.perform();
+            }
+
+            if (!hasRepeatAction())
+                lastCommand = this;
+        }
+
+        public void perform() {
             foreach (Actions a in actionList) {
                 a.perform();
             }
@@ -107,6 +126,16 @@ namespace Vocals {
                     wplayer.controls.play();
                 }
             }
+        }
+
+        private bool hasRepeatAction()
+        {
+            foreach (Actions a in actionList)
+            {
+                if (a.type == "Misc" && a.miscOption == "Rep. last command")
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -30,39 +30,34 @@ namespace Vocals {
 
         public Keys modifier { get; set; }
         
-        public FormAction() {
-
+        private void Init()
+        {
             InitializeComponent();
 
             keyDataSource = (Keys[])Enum.GetValues(typeof(Keys)).Cast<Keys>();
-
-            comboBox2.DataSource = keyDataSource;
-          
-            comboBox1.DataSource = new string[]{"Key press","Timer","MP3 controls","Misc"};
-            comboBox_mp3opt.DataSource = new string[] { "Pause", "Resume", "Stop" };
-            comboBox_misc.DataSource = new string[] { "None", "Rep. last command" };
-
-            numericUpDown1.DecimalPlaces = 2;
-            numericUpDown1.Increment = 0.1M;
-        }
-
-        public FormAction(Actions a) {
-            InitializeComponent();
-            keyDataSource = (Keys[])Enum.GetValues(typeof(Keys)).Cast<Keys>();
-           
 
             comboBox2.DataSource = keyDataSource;
 
             comboBox1.DataSource = new string[] { "Key press", "Timer", "MP3 controls", "Misc" };
             comboBox_mp3opt.DataSource = new string[] { "Pause", "Resume", "Stop" };
-            comboBox_misc.DataSource = new string[] { "None", "Rep. last command" };
+            comboBox_misc.DataSource = new string[] { "None", "Rep. last command", "Reset counter", "Increase counter" };
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
+        }
+
+        public FormAction() {
+            Init();            
+        }
+
+        public FormAction(Actions a) {
+            Init();
 
             comboBox2.SelectedItem = a.keys;
             numericUpDown1.Value = Convert.ToDecimal(a.timer);
             comboBox1.SelectedItem = a.type;
+            comboBox_mp3opt.SelectedItem = a.mp3option;
+            comboBox_misc.SelectedItem = a.miscOption;
 
             switch (a.keyModifier) {
                 case Keys.ControlKey:

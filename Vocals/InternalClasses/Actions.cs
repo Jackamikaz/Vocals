@@ -77,6 +77,12 @@ namespace Vocals
                         case "Rep. last command":
                             Command.nextCommand = Command.lastCommand;
                             break;
+                        case "Reset counter":
+                            Command.counter = 0;
+                            break;
+                        case "Increase counter":
+                            ++Command.counter;
+                            break;
                     }
                     break;
             }

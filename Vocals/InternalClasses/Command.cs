@@ -24,6 +24,8 @@ namespace Vocals {
 
         public static WMPLib.WindowsMediaPlayer wplayer { get; set; }
 
+        public static int counter { get; set; } = 0;
+
         public static Command lastCommand { get; set; }
         public static Command nextCommand { get; set; }
 
@@ -100,8 +102,9 @@ namespace Vocals {
             if (answering && answeringString != null) {
                 try {
                     SpeechSynthesizer synth = new SpeechSynthesizer();
+                    string answer = answeringString.Replace("%counter%", Command.counter.ToString());
                     if (synth != null) {
-                        synth.SpeakAsync(answeringString);
+                        synth.SpeakAsync(answer);
                     }
                 }
                 catch(Exception e){

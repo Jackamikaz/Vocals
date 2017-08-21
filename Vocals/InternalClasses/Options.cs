@@ -24,7 +24,7 @@ namespace Vocals.InternalClasses {
                 toggleListening = false;
                 key = Keys.ShiftKey;
                 answer = "Toggle listening";
-                threshold = 0;
+                threshold = 75;
             }
         }
 

@@ -17,11 +17,14 @@ namespace Vocals
         public System.Windows.Forms.Keys keyModifier;
         public string mp3option;
         public string miscOption;
+        public string mouseOption;
+        public int mouseposx;
+        public int mouseposy;
 
         public Actions() {
 
         }
-        public Actions(string type, System.Windows.Forms.Keys keys, System.Windows.Forms.Keys modifier, float timer, string mp3option, string miscOption) {
+        public Actions(string type, System.Windows.Forms.Keys keys, System.Windows.Forms.Keys modifier, float timer, string mp3option, string miscOption, string mouseOption, int mouseposx, int mouseposy) {
             // TODO: Complete member initialization
             this.type = type;
             this.keys = keys;
@@ -29,6 +32,9 @@ namespace Vocals
             this.keyModifier = modifier;
             this.mp3option = mp3option;
             this.miscOption = miscOption;
+            this.mouseOption = mouseOption;
+            this.mouseposx = mouseposx;
+            this.mouseposy = mouseposy;
         }
 
 
@@ -36,6 +42,8 @@ namespace Vocals
             switch (type) {
                 case "Key press":
                     return "Key press : " + keys.ToString();
+                case "Mouse click":
+                    return "Mouse click : " + mouseOption + " at [" + mouseposx + ';' + mouseposy + ']';
                 case "Timer":
                     return "Timer : " + timer.ToString() + " secs";
                 case "MP3 controls":
@@ -47,12 +55,43 @@ namespace Vocals
             }
         }
 
+        //This is a replacement for Cursor.Position in WinForms
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool SetCursorPos(int x, int y);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        public const int MOUSEEVENTF_LEFTUP = 0x04;
+        public const int MOUSEEVENTF_MIDDLEDOWN = 0x20;
+        public const int MOUSEEVENTF_MIDDLEUP = 0x40;
+        public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        public const int MOUSEEVENTF_RIGHTUP = 0x10;
 
         public void perform()
         {
             switch (type) {
                 case "Key press":
                     VirtualKeyboard.PressKey(keys, keyModifier);
+                    break;
+                case "Mouse click":
+                    SetCursorPos(mouseposx, mouseposy);
+                    switch (mouseOption)
+                    {
+                        case "Left":
+                            mouse_event(MOUSEEVENTF_LEFTDOWN, mouseposx, mouseposy, 0, 0);
+                            mouse_event(MOUSEEVENTF_LEFTUP, mouseposx, mouseposy, 0, 0);
+                            break;
+                        case "Right":
+                            mouse_event(MOUSEEVENTF_RIGHTDOWN, mouseposx, mouseposy, 0, 0);
+                            mouse_event(MOUSEEVENTF_RIGHTUP, mouseposx, mouseposy, 0, 0);
+                            break;
+                        case "Middle":
+                            mouse_event(MOUSEEVENTF_MIDDLEDOWN, mouseposx, mouseposy, 0, 0);
+                            mouse_event(MOUSEEVENTF_MIDDLEUP, mouseposx, mouseposy, 0, 0);
+                            break;
+                    }
                     break;
                 case "Timer":
                     System.Threading.Thread.Sleep((int)(timer*1000));

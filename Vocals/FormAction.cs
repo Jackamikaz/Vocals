@@ -28,19 +28,34 @@ namespace Vocals {
             }
         }
 
+        public string selectedMouse
+        {
+            get
+            {
+                return (string)comboBox_mouse.SelectedItem;
+            }
+        }
+
+        public int mouseposx { get { return (int)xpos.Value; } }
+
+        public int mouseposy { get { return (int)ypos.Value; } }
+
         public Keys modifier { get; set; }
         
         private void Init()
         {
             InitializeComponent();
 
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormAction_KeyDown);
+
             keyDataSource = (Keys[])Enum.GetValues(typeof(Keys)).Cast<Keys>();
 
             comboBox2.DataSource = keyDataSource;
 
-            comboBox1.DataSource = new string[] { "Key press", "Timer", "MP3 controls", "Misc" };
+            comboBox1.DataSource = new string[] { "Key press", "Mouse click", "Timer", "MP3 controls", "Misc" };
             comboBox_mp3opt.DataSource = new string[] { "Pause", "Resume", "Stop" };
             comboBox_misc.DataSource = new string[] { "None", "Rep. last command", "Reset counter", "Increase counter" };
+            comboBox_mouse.DataSource = new string[] { "Left", "Right", "Middle" };
 
             numericUpDown1.DecimalPlaces = 2;
             numericUpDown1.Increment = 0.1M;
@@ -58,6 +73,9 @@ namespace Vocals {
             comboBox1.SelectedItem = a.type;
             comboBox_mp3opt.SelectedItem = a.mp3option;
             comboBox_misc.SelectedItem = a.miscOption;
+            comboBox_mouse.SelectedItem = a.mouseOption;
+            xpos.Value = a.mouseposx;
+            ypos.Value = a.mouseposy;
 
             switch (a.keyModifier) {
                 case Keys.ControlKey:
@@ -89,6 +107,21 @@ namespace Vocals {
                     checkBox3.Enabled = true;
                     comboBox_mp3opt.Enabled = false;
                     comboBox_misc.Enabled = false;
+                    comboBox_mouse.Enabled = false;
+                    xpos.Enabled = false;
+                    ypos.Enabled = false;
+                    break;
+                case "Mouse click":
+                    numericUpDown1.Enabled = false;
+                    comboBox2.Enabled = false;
+                    checkBox1.Enabled = false;
+                    checkBox2.Enabled = false;
+                    checkBox3.Enabled = false;
+                    comboBox_mp3opt.Enabled = false;
+                    comboBox_misc.Enabled = false;
+                    comboBox_mouse.Enabled = true;
+                    xpos.Enabled = true;
+                    ypos.Enabled = true;
                     break;
                 case "Timer":
                     numericUpDown1.Enabled = true;
@@ -98,6 +131,9 @@ namespace Vocals {
                     checkBox3.Enabled = false;
                     comboBox_mp3opt.Enabled = false;
                     comboBox_misc.Enabled = false;
+                    comboBox_mouse.Enabled = false;
+                    xpos.Enabled = false;
+                    ypos.Enabled = false;
                     break;
                 case "MP3 controls":
                     numericUpDown1.Enabled = false;
@@ -107,6 +143,9 @@ namespace Vocals {
                     checkBox3.Enabled = false;
                     comboBox_mp3opt.Enabled = true;
                     comboBox_misc.Enabled = false;
+                    comboBox_mouse.Enabled = false;
+                    xpos.Enabled = false;
+                    ypos.Enabled = false;
                     break;
                 case "Misc":
                     numericUpDown1.Enabled = false;
@@ -116,6 +155,9 @@ namespace Vocals {
                     checkBox3.Enabled = false;
                     comboBox_mp3opt.Enabled = false;
                     comboBox_misc.Enabled = true;
+                    comboBox_mouse.Enabled = false;
+                    xpos.Enabled = false;
+                    ypos.Enabled = false;
                     break;
                 default :
                     break;
@@ -194,6 +236,44 @@ namespace Vocals {
             selectedMP3control = (string)comboBox_mp3opt.SelectedItem;
         }
 
+        private void label5_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        /// <summary>
+        /// Struct representing a point.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public static implicit operator Point(POINT point)
+            {
+                return new Point(point.X, point.Y);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the cursor's position, in screen coordinates.
+        /// </summary>
+        /// <see>See MSDN documentation for further information.</see>
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
+
+        private void FormAction_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
+                POINT lpPoint;
+                GetCursorPos(out lpPoint);
+                
+                xpos.Value = lpPoint.X;
+                ypos.Value = lpPoint.Y;
+            }
+        }
     }
 }

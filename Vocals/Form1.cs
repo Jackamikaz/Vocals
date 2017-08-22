@@ -37,7 +37,7 @@ namespace Vocals {
         [DllImport("user32.dll")]
         protected static extern bool IsWindowVisible(IntPtr hWnd);
 
-        List<string> myWindows;
+        Dictionary<string, IntPtr> myWindows;
         List<Profile> profileList;
         IntPtr winPointer;
 
@@ -53,7 +53,7 @@ namespace Vocals {
             InitializeComponent();
             initialyzeSpeechEngine();
 
-            myWindows = new List<string>();
+            myWindows = new Dictionary<string, IntPtr>();
             refreshProcessesList();
 
 
@@ -103,8 +103,7 @@ namespace Vocals {
         public void refreshProcessesList() {
             EnumWindows(new EnumWindowsProc(EnumTheWindows), IntPtr.Zero);
             comboBox1.DataSource = null;
-            comboBox1.DataSource = myWindows;
-
+            comboBox1.DataSource = new List<string>(this.myWindows.Keys);
         }
 
         void fetchProfiles() {
@@ -230,7 +229,7 @@ namespace Vocals {
             if (size++ > 0 && IsWindowVisible(hWnd)) {
                 StringBuilder sb = new StringBuilder(size);
                 GetWindowText(hWnd, sb, size);
-                myWindows.Add(sb.ToString());
+                myWindows[sb.ToString()] = hWnd;
             }
             return true;
         }
@@ -340,14 +339,10 @@ namespace Vocals {
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            Process[] pTab = Process.GetProcesses();
-            for (int i = 0; i < pTab.Length; i++) {
-                if (pTab[i] != null && comboBox1.SelectedItem != null) {
-                    if (pTab[i].MainWindowTitle.Equals(comboBox1.SelectedItem.ToString())) {
-                        winPointer = pTab[i].MainWindowHandle;
-                    }
-                }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null) {
+                winPointer = myWindows[comboBox1.SelectedItem.ToString()];
             }
         }
 

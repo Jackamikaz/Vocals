@@ -74,14 +74,44 @@ namespace Vocals {
         [DllImport("User32.dll")]
         static extern int SetForegroundWindow(IntPtr point);
 
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetWindowThreadProcessId(IntPtr a, IntPtr b);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetCurrentThreadId();
+
+        [DllImport("user32.dll")]
+        static extern bool AttachThreadInput(IntPtr a, IntPtr b, bool c);
+
+        public static void forceSetForegroundWindow(IntPtr hWnd)
+        {
+            IntPtr mainThreadId = GetCurrentThreadId();
+            IntPtr foregroundThreadID = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+            if (foregroundThreadID != mainThreadId)
+            {
+                AttachThreadInput(mainThreadId, foregroundThreadID, true);
+                SetForegroundWindow(hWnd);
+                AttachThreadInput(mainThreadId, foregroundThreadID, false);
+            }
+            else
+                SetForegroundWindow(hWnd);
+        }
 
 
         public void perform(IntPtr winPointer) {
 
-            SetForegroundWindow(winPointer);
-            ShowWindow(winPointer, 5);
+            IntPtr remember = GetForegroundWindow();
+
+            forceSetForegroundWindow(winPointer);
+
+            System.Threading.Thread.Sleep(300);
 
             nextCommand = this;
             while (nextCommand != null)
@@ -93,6 +123,10 @@ namespace Vocals {
 
             if (!hasRepeatAction())
                 lastCommand = this;
+
+            System.Threading.Thread.Sleep(300);
+
+            forceSetForegroundWindow(remember);
         }
 
         public void perform() {
